@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "XMPPFramework.h"
+#import "WCNavigationController.h"
 /*
  * 在AppDelegate实现登录
  
@@ -18,6 +19,7 @@
  */
 @interface AppDelegate ()<XMPPStreamDelegate>{
     XMPPStream *_xmppStream;
+    XMPPResultBlock _resultBlock;
 }
 
 // 1. 初始化XMPPStream
@@ -40,8 +42,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-//    // 程序一启动就连接到主机
-//    [self connectToHost];
+    // 设置导航栏背景
+    [WCNavigationController setupNavTheme];
     return YES;
 }
 
@@ -59,7 +61,7 @@
 
 #pragma mark 连接到服务器
 -(void)connectToHost{
-    NSLog(@"开始连接到服务器");
+    WCLog(@"开始连接到服务器");
     if (!_xmppStream) {
         [self setupXMPPStream];
     }
@@ -83,7 +85,7 @@
     // 连接
     NSError *err = nil;
     if(![_xmppStream connectWithTimeout:XMPPStreamTimeoutNone error:&err]){
-        NSLog(@"%@",err);
+        WCLog(@"%@",err);
     }
     
 }
@@ -91,7 +93,7 @@
 
 #pragma mark 连接到服务成功后，再发送密码授权
 -(void)sendPwdToHost{
-    NSLog(@"再发送密码授权");
+    WCLog(@"再发送密码授权");
     NSError *err = nil;
     
     // 从沙盒里获取密码
@@ -99,16 +101,16 @@
     
     [_xmppStream authenticateWithPassword:pwd error:&err];
     if (err) {
-        NSLog(@"%@",err);
+        WCLog(@"%@",err);
     }
 }
 
 #pragma mark  授权成功后，发送"在线" 消息
 -(void)sendOnlineToHost{
     
-    NSLog(@"发送 在线 消息");
+    WCLog(@"发送 在线 消息");
     XMPPPresence *presence = [XMPPPresence presence];
-    NSLog(@"%@",presence);
+    WCLog(@"%@",presence);
     
     [_xmppStream sendElement:presence];
     
@@ -117,7 +119,7 @@
 #pragma mark -XMPPStream的代理
 #pragma mark 与主机连接成功
 -(void)xmppStreamDidConnect:(XMPPStream *)sender{
-    NSLog(@"与主机连接成功");
+    WCLog(@"与主机连接成功");
     
     // 主机连接成功后，发送密码进行授权
     [self sendPwdToHost];
@@ -125,44 +127,68 @@
 #pragma mark  与主机断开连接
 -(void)xmppStreamDidDisconnect:(XMPPStream *)sender withError:(NSError *)error{
     // 如果有错误，代表连接失败
-    NSLog(@"与主机断开连接 %@",error);
+    
+    // 如果没有错误，表示正常的断开连接(人为断开连接)
+    
+    
+    if(error && _resultBlock){
+        _resultBlock(XMPPResultTypeNetErr);
+    }
+    WCLog(@"与主机断开连接 %@",error);
     
 }
 
 
 #pragma mark 授权成功
 -(void)xmppStreamDidAuthenticate:(XMPPStream *)sender{
-    NSLog(@"授权成功");
+    WCLog(@"授权成功");
     
     [self sendOnlineToHost];
     
-    // 登录成功来到主界面
-    // 此方法是在子线程补调用，所以在主线程刷新UI
-    dispatch_async(dispatch_get_main_queue(), ^{
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        self.window.rootViewController = storyboard.instantiateInitialViewController;
-    });
-   
+    // 回调控制器登录成功
+    if(_resultBlock){
+        _resultBlock(XMPPResultTypeLoginSuccess);
+    }
+        
+    
 }
 
 
 #pragma mark 授权失败
 -(void)xmppStream:(XMPPStream *)sender didNotAuthenticate:(DDXMLElement *)error{
-    NSLog(@"授权失败 %@",error);
+    WCLog(@"授权失败 %@",error);
+    
+    
+    // 判断block有无值，再回调给登录控制器
+    if (_resultBlock) {
+        _resultBlock(XMPPResultTypeLoginFailure);
+    }
 }
 
 
 #pragma mark -公共方法
--(void)logout{
+-(void)xmppUserlogout{
     // 1." 发送 "离线" 消息"
     XMPPPresence *offline = [XMPPPresence presenceWithType:@"unavailable"];
     [_xmppStream sendElement:offline];
     
     // 2. 与服务器断开连接
     [_xmppStream disconnect];
+    
+    // 3. 回到登录界面
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
+    
+    self.window.rootViewController = storyboard.instantiateInitialViewController;
 }
 
--(void)xmppUserLogin{
+-(void)xmppUserLogin:(XMPPResultBlock)resultBlock{
+    
+    // 先把block存起来
+    _resultBlock = resultBlock;
+    
+//    Domain=XMPPStreamErrorDomain Code=1 "Attempting to connect while already connected or connecting." UserInfo=0x7fd86bf06700 {NSLocalizedDescription=Attempting to connect while already connected or connecting.}
+    // 如果以前连接过服务，要断开
+    [_xmppStream disconnect];
     
     // 连接主机 成功后发送密码
     [self connectToHost];

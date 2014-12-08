@@ -110,7 +110,7 @@
         <!--其它方式登录Nav-->
         <scene sceneID="cia-2N-EGU">
             <objects>
-                <navigationController id="eyq-I2-Pi5" userLabel="其它方式登录Nav" sceneMemberID="viewController">
+                <navigationController id="eyq-I2-Pi5" userLabel="其它方式登录Nav" customClass="WCNavigationController" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Emb-RI-R3a">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -192,7 +192,13 @@
                             <constraint firstItem="Lb1-Kr-33X" firstAttribute="top" secondItem="eh4-Hk-CiZ" secondAttribute="bottom" constant="67" id="uLA-j8-BcZ"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="jUu-Zl-PiH"/>
+                    <navigationItem key="navigationItem" id="jUu-Zl-PiH">
+                        <barButtonItem key="leftBarButtonItem" title="取消" id="NfN-tz-ing">
+                            <connections>
+                                <action selector="cancel:" destination="Vdq-3c-r3D" id="NDA-rD-xxu"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="leftConstraint" destination="DWU-Rj-tra" id="C1B-SO-SgY"/>
                         <outlet property="loginBtn" destination="ZOW-F0-p7o" id="Xju-gl-VdV"/>

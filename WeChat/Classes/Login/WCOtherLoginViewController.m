@@ -26,6 +26,8 @@
 {
     [super viewDidLoad];
     
+    self.title = @"其它方式登录";
+    
     // 判断当前设备的类型 改变左右两边约束的距离
     if([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone){
         self.leftConstraint.constant = 10;
@@ -62,8 +64,64 @@
     [defaults synchronize];
     
     
+    //隐藏键盘
+    [self.view endEditing:YES];
+    
+    // 登录之前给个提示
+    
+    [MBProgressHUD showMessage:@"正在登录中..." toView:self.view];
     AppDelegate *app = [UIApplication sharedApplication].delegate;
-    [app xmppUserLogin];
+    
+    __weak typeof(self) selfVc = self;
+    
+    [app xmppUserLogin:^(XMPPResultType type) {
+        [selfVc handleResultType:type];
+    }];
 }
 
+-(void)handleResultType:(XMPPResultType)type{
+    // 主线程刷新UI
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideHUDForView:self.view
+         ];
+        switch (type) {
+            case XMPPResultTypeLoginSuccess:
+                NSLog(@"登录成功");
+                [self enterMainPage];
+                break;
+            case XMPPResultTypeLoginFailure:
+                NSLog(@"登录失败");
+                [MBProgressHUD showError:@"用户名或者密码不正确" toView:self.view];
+                break;
+            case XMPPResultTypeNetErr:
+                [MBProgressHUD showError:@"网络不给力" toView:self.view];
+            default:
+                break;
+        }
+    });
+    
+}
+
+
+-(void)enterMainPage{
+    // 隐藏模态窗口
+    [self dismissViewControllerAnimated:NO completion:nil];
+    
+    // 登录成功来到主界面
+    // 此方法是在子线程补调用，所以在主线程刷新UI
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    self.view.window.rootViewController = storyboard.instantiateInitialViewController;
+}
+
+
+- (IBAction)cancel:(id)sender {
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+
+-(void)dealloc{
+    NSLog(@"%s",__func__);
+}
 @end
