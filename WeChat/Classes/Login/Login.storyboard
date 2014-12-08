@@ -126,7 +126,7 @@
         <!--其它方式登录-->
         <scene sceneID="Vl2-Iw-93W">
             <objects>
-                <viewController id="Vdq-3c-r3D" userLabel="其它方式登录" sceneMemberID="viewController">
+                <viewController id="Vdq-3c-r3D" userLabel="其它方式登录" customClass="WCOtherLoginViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="eh4-Hk-CiZ"/>
                         <viewControllerLayoutGuide type="bottom" id="cP1-na-4EN"/>
@@ -138,18 +138,16 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lb1-Kr-33X" userLabel="其它方式登录框窗口">
                                 <rect key="frame" x="100" y="131" width="400" height="200"/>
                                 <subviews>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nc5-aS-zGx">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="zhangsan" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nc5-aS-zGx" userLabel="用户名">
                                         <rect key="frame" x="0.0" y="8" width="400" height="42"/>
-                                        <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="42" id="yc9-7D-ouy"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hTJ-PN-Kxu">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="123456" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hTJ-PN-Kxu" userLabel="密码">
                                         <rect key="frame" x="0.0" y="62" width="400" height="40"/>
-                                        <color key="backgroundColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="vAH-OF-jd1"/>
                                         </constraints>
@@ -161,9 +159,12 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="7QD-f7-asq"/>
                                         </constraints>
-                                        <state key="normal" title="Button">
+                                        <state key="normal" title="登录">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="loginBtnClick" destination="Vdq-3c-r3D" eventType="touchUpInside" id="VYL-bF-dpJ"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.79215686269999996" green="0.81176470590000005" blue="0.85882352939999995" alpha="1" colorSpace="deviceRGB"/>
@@ -192,10 +193,17 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="jUu-Zl-PiH"/>
+                    <connections>
+                        <outlet property="leftConstraint" destination="DWU-Rj-tra" id="C1B-SO-SgY"/>
+                        <outlet property="loginBtn" destination="ZOW-F0-p7o" id="Xju-gl-VdV"/>
+                        <outlet property="pwdField" destination="hTJ-PN-Kxu" id="faf-sK-ByR"/>
+                        <outlet property="rightConstraint" destination="4Cl-GD-ibZ" id="Osq-cL-5cm"/>
+                        <outlet property="userField" destination="nc5-aS-zGx" id="TUU-Pt-Imf"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CcH-n7-o1J" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1374" y="461"/>
+            <point key="canvasLocation" x="1334" y="296"/>
         </scene>
     </scenes>
     <resources>
