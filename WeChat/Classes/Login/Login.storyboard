@@ -25,7 +25,7 @@
         <!--登录-->
         <scene sceneID="nq2-fy-uVC">
             <objects>
-                <viewController id="bZj-hW-Fdg" sceneMemberID="viewController">
+                <viewController id="bZj-hW-Fdg" customClass="WCLoginViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="eJL-ls-QjD"/>
                         <viewControllerLayoutGuide type="bottom" id="2nd-ci-LiI"/>
@@ -102,6 +102,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="登录" id="U7U-iW-Zf2"/>
+                    <connections>
+                        <outlet property="userLabel" destination="I3e-TV-aRD" id="I3j-eh-yGk"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hQi-gv-Knl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

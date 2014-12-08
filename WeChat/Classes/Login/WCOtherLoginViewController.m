@@ -49,20 +49,15 @@
     /*
      * 官方的登录实现
      
-     * 1.把用户名和密码放在沙盒
+     * 1.把用户名和密码放在WCUserInfo的单例
      
      
      * 2.调用 AppDelegate的一个login 连接服务并登录
      */
     
-    NSString *user = self.userField.text;
-    NSString *pwd = self.pwdField.text;
-    
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:user forKey:@"user"];
-    [defaults setObject:pwd forKey:@"pwd"];
-    [defaults synchronize];
-    
+    WCUserInfo *userInfo = [WCUserInfo sharedWCUserInfo];
+    userInfo.user = self.userField.text;
+    userInfo.pwd = self.pwdField.text;
     
     //隐藏键盘
     [self.view endEditing:YES];
@@ -79,6 +74,41 @@
     }];
 }
 
+//- (IBAction)loginBtnClick {
+//    // 登录
+//    
+//    /*
+//     * 官方的登录实现
+//     
+//     * 1.把用户名和密码放在沙盒
+//     
+//     
+//     * 2.调用 AppDelegate的一个login 连接服务并登录
+//     */
+//    
+//    NSString *user = self.userField.text;
+//    NSString *pwd = self.pwdField.text;
+//    
+//    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+//    [defaults setObject:user forKey:@"user"];
+//    [defaults setObject:pwd forKey:@"pwd"];
+//    [defaults synchronize];
+//    
+//    
+//    //隐藏键盘
+//    [self.view endEditing:YES];
+//    
+//    // 登录之前给个提示
+//    
+//    [MBProgressHUD showMessage:@"正在登录中..." toView:self.view];
+//    AppDelegate *app = [UIApplication sharedApplication].delegate;
+//    
+//    __weak typeof(self) selfVc = self;
+//    
+//    [app xmppUserLogin:^(XMPPResultType type) {
+//        [selfVc handleResultType:type];
+//    }];
+//}
 -(void)handleResultType:(XMPPResultType)type{
     // 主线程刷新UI
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -104,6 +134,13 @@
 
 
 -(void)enterMainPage{
+    
+    // 更改用户的登录状态为YES
+    [WCUserInfo sharedWCUserInfo].loginStatus = YES;
+    
+    // 把用户登录成功的数据，保存到沙盒
+    [[WCUserInfo sharedWCUserInfo] saveUserInfoToSanbox];
+    
     // 隐藏模态窗口
     [self dismissViewControllerAnimated:NO completion:nil];
     
