@@ -46,16 +46,19 @@
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yuS-Hb-0JE">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yuS-Hb-0JE">
                                         <rect key="frame" x="0.0" y="103" width="280" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lr1-j6-xXQ">
                                         <rect key="frame" x="0.0" y="141" width="280" height="30"/>
-                                        <state key="normal" title="Button">
+                                        <state key="normal" title="登录">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="loginBtnClick:" destination="bZj-hW-Fdg" eventType="touchUpInside" id="kyk-q5-L2H"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xQK-yW-Hzi">
                                         <rect key="frame" x="66" y="168" width="30" height="30"/>
@@ -103,6 +106,8 @@
                     </view>
                     <navigationItem key="navigationItem" title="登录" id="U7U-iW-Zf2"/>
                     <connections>
+                        <outlet property="loginBtn" destination="Lr1-j6-xXQ" id="q8Q-gc-mtd"/>
+                        <outlet property="pwdField" destination="yuS-Hb-0JE" id="Opi-nY-yzy"/>
                         <outlet property="userLabel" destination="I3e-TV-aRD" id="I3j-eh-yGk"/>
                     </connections>
                 </viewController>

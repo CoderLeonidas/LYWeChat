@@ -6,8 +6,9 @@
 //  Copyright (c) 2014年 heima. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 
-@interface WCOtherLoginViewController : UIViewController
+#import "WCBaseLoginViewController.h"
+
+@interface WCOtherLoginViewController : WCBaseLoginViewController
 
 @end
