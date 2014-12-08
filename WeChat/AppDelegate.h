@@ -22,6 +22,11 @@ typedef void (^XMPPResultBlock)(XMPPResultType type);// XMPP请求结果的block
 @property (strong, nonatomic) UIWindow *window;
 
 /**
+ *  注册标识 YES 注册 / NO 登录
+ */
+@property (nonatomic, assign,getter=isRegisterOperation) BOOL  registerOperation;//注册操作
+
+/**
  *  用户注销
  
  */
@@ -31,5 +36,10 @@ typedef void (^XMPPResultBlock)(XMPPResultType type);// XMPP请求结果的block
  */
 -(void)xmppUserLogin:(XMPPResultBlock)resultBlock;
 
+
+/**
+ *  用户注册
+ */
+-(void)xmppUserRegister:(XMPPResultBlock)resultBlock;
 @end
 
