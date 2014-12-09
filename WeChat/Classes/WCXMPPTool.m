@@ -20,6 +20,7 @@
     XMPPStream *_xmppStream;
     XMPPResultBlock _resultBlock;
     
+    XMPPReconnect *_reconnect;// 自动连接模块
     
     XMPPvCardCoreDataStorage *_vCardStorage;//电子名片的数据存储
     
@@ -55,6 +56,10 @@ singleton_implementation(WCXMPPTool)
     
     _xmppStream = [[XMPPStream alloc] init];
 #warning 每一个模块添加后都要激活
+    //添加自动连接模块
+    _reconnect = [[XMPPReconnect alloc] init];
+    [_reconnect activate:_xmppStream];
+    
     //添加电子名片模块
     _vCardStorage = [XMPPvCardCoreDataStorage sharedInstance];
     _vCard = [[XMPPvCardTempModule alloc] initWithvCardStorage:_vCardStorage];
@@ -72,6 +77,28 @@ singleton_implementation(WCXMPPTool)
     [_xmppStream addDelegate:self delegateQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];
 }
 
+#pragma mark 释放xmppStream相关的资源
+-(void)teardownXmpp{
+    
+    // 移除代理
+    [_xmppStream removeDelegate:self];
+    
+    // 停止模块
+    [_reconnect deactivate];
+    [_vCard deactivate];
+    [_avatar deactivate];
+    
+    // 断开连接
+    [_xmppStream disconnect];
+    
+    // 清空资源
+    _reconnect = nil;
+    _vCard = nil;
+    _vCardStorage = nil;
+    _avatar = nil;
+    _xmppStream = nil;
+
+}
 #pragma mark 连接到服务器
 -(void)connectToHost{
     WCLog(@"开始连接到服务器");
@@ -255,4 +282,8 @@ singleton_implementation(WCXMPPTool)
     [self connectToHost];
 }
 
+
+-(void)dealloc{
+    [self teardownXmpp];
+}
 @end
