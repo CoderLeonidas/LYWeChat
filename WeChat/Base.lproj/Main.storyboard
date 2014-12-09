@@ -180,7 +180,7 @@
         <!--Profile View Controller-->
         <scene sceneID="4qY-VD-dGk">
             <objects>
-                <tableViewController id="xYi-Q5-1gs" customClass="WCProfileViewController" sceneMemberID="viewController">
+                <tableViewController hidesBottomBarWhenPushed="YES" id="xYi-Q5-1gs" customClass="WCProfileViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="O2S-kz-7Tb">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -374,11 +374,58 @@
                         <outlet property="phoneLabel" destination="V0N-z0-sqX" id="Cpp-WW-rNv"/>
                         <outlet property="titleLabel" destination="ISw-AM-yZM" id="7Y1-Wb-Xhl"/>
                         <outlet property="weixinNumLabel" destination="ohq-Yk-43b" id="EL0-0D-VH4"/>
+                        <segue destination="Hl5-88-Zte" kind="show" identifier="EditVCardSegue" id="bjb-Nl-CiB"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8KU-cw-cnw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1658" y="1691"/>
+        </scene>
+        <!--编辑电子名片-->
+        <scene sceneID="Zmm-Is-Y8H">
+            <objects>
+                <tableViewController hidesBottomBarWhenPushed="YES" id="Hl5-88-Zte" userLabel="编辑电子名片" customClass="WCEditProfileViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="mZH-6k-Xx3">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <sections>
+                            <tableViewSection id="y2Y-xK-BNH">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="44" id="38u-f2-FhH">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="38u-f2-FhH" id="VJn-Fp-KEK">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="j7V-Er-JFb">
+                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="j7V-Er-JFb" secondAttribute="trailing" id="9bo-rY-ioH"/>
+                                                <constraint firstItem="j7V-Er-JFb" firstAttribute="top" secondItem="VJn-Fp-KEK" secondAttribute="top" id="cCY-L7-Zp6"/>
+                                                <constraint firstAttribute="bottom" secondItem="j7V-Er-JFb" secondAttribute="bottom" id="o2P-6N-L8U"/>
+                                                <constraint firstItem="j7V-Er-JFb" firstAttribute="leading" secondItem="VJn-Fp-KEK" secondAttribute="leading" id="tG8-Ji-Ap0"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="Hl5-88-Zte" id="J2S-mX-y7V"/>
+                            <outlet property="delegate" destination="Hl5-88-Zte" id="NhP-Ev-Kgb"/>
+                        </connections>
+                    </tableView>
+                    <connections>
+                        <outlet property="textField" destination="j7V-Er-JFb" id="5hO-66-eTf"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UVw-pt-YfM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2440" y="1689"/>
         </scene>
         <!--我-->
         <scene sceneID="m3l-UW-a3j">
