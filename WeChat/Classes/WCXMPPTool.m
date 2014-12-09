@@ -17,7 +17,7 @@
  4. 授权成功后，发送"在线" 消息
  */
 @interface WCXMPPTool ()<XMPPStreamDelegate>{
-    XMPPStream *_xmppStream;
+    
     XMPPResultBlock _resultBlock;
     
     XMPPReconnect *_reconnect;// 自动连接模块
@@ -27,7 +27,7 @@
     XMPPvCardAvatarModule *_avatar;//头像模块
     
     
-    XMPPRoster *_roster;//花名册模块
+    
 
 }
 
