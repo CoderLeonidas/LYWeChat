@@ -40,6 +40,9 @@
 }
 
 - (IBAction)registerBtnClick {
+    
+    
+    
     [self.view endEditing:YES];
     
     // 判断用户输入的是否为手机号码
@@ -55,18 +58,16 @@
     
 
     
-    // 2.调用AppDelegate的xmppUserRegister
+    // 2.调用WCXMPPTool的xmppUserRegister
 
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
-
-    app.registerOperation = YES;
+    [WCXMPPTool sharedWCXMPPTool].registerOperation = YES;
     
     // 提示
     
     [MBProgressHUD showMessage:@"正在注册中....." toView:self.view];
     
     __weak typeof(self) selfVc = self;
-    [app xmppUserRegister:^(XMPPResultType type) {
+    [[WCXMPPTool sharedWCXMPPTool] xmppUserRegister:^(XMPPResultType type) {
         
         [selfVc handleResultType:type];
     }];
