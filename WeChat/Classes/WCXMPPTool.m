@@ -7,7 +7,7 @@
 //
 
 #import "WCXMPPTool.h"
-
+NSString *const WCLoginStatusChangeNotification = @"WCLoginStatusNotification";
 /*
  * 在AppDelegate实现登录
  
@@ -126,6 +126,8 @@ singleton_implementation(WCXMPPTool)
         [self setupXMPPStream];
     }
     
+    // 发送通知【正在连接】
+    [self postNotification:XMPPResultTypeConnecting];
     
     // 设置登录用户JID
     //resource 标识用户登录的客户端 iphone android
@@ -182,6 +184,20 @@ singleton_implementation(WCXMPPTool)
     
     
 }
+
+
+/**
+ * 通知 WCHistoryViewControllers 登录状态
+ *
+ */
+-(void)postNotification:(XMPPResultType)resultType{
+    
+    // 将登录状态放入字典，然后通过通知传递
+    NSDictionary *userInfo = @{@"loginStatus":@(resultType)};
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:WCLoginStatusChangeNotification object:nil userInfo:userInfo];
+}
+
 #pragma mark -XMPPStream的代理
 #pragma mark 与主机连接成功
 -(void)xmppStreamDidConnect:(XMPPStream *)sender{
@@ -206,6 +222,11 @@ singleton_implementation(WCXMPPTool)
     if(error && _resultBlock){
         _resultBlock(XMPPResultTypeNetErr);
     }
+    
+    if (error) {
+        //通知 【网络不稳定】
+        [self postNotification:XMPPResultTypeNetErr];
+    }
     WCLog(@"与主机断开连接 %@",error);
     
 }
@@ -223,6 +244,8 @@ singleton_implementation(WCXMPPTool)
     }
     
     
+    [self postNotification:XMPPResultTypeLoginSuccess];
+    
 }
 
 
@@ -234,6 +257,8 @@ singleton_implementation(WCXMPPTool)
     if (_resultBlock) {
         _resultBlock(XMPPResultTypeLoginFailure);
     }
+    
+    [self postNotification:XMPPResultTypeLoginFailure];
 }
 
 #pragma mark 注册成功

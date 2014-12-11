@@ -21,7 +21,7 @@
     NSLog(@"%@",path);
     
     // 打开XMPP的日志
-    [DDLog addLogger:[DDTTYLogger sharedInstance]];
+    //[DDLog addLogger:[DDTTYLogger sharedInstance]];
     
     
     // 设置导航栏背景
@@ -36,7 +36,12 @@
         self.window.rootViewController = storayobard.instantiateInitialViewController;
         
         // 自动登录服务
-        [[WCXMPPTool sharedWCXMPPTool] xmppUserLogin:nil];
+        // 1秒后再自动登录
+#warning 一般情况下，都不会马上连接，会稍微等等
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [[WCXMPPTool sharedWCXMPPTool] xmppUserLogin:nil];
+        });
+        
     }
     return YES;
 }

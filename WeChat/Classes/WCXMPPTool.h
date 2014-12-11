@@ -9,8 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "Singleton.h"
 #import "XMPPFramework.h"
-
+extern NSString *const WCLoginStatusChangeNotification;
 typedef enum {
+    XMPPResultTypeConnecting,//连接中...
     XMPPResultTypeLoginSuccess,//登录成功
     XMPPResultTypeLoginFailure,//登录失败
     XMPPResultTypeNetErr,//网络不给力
