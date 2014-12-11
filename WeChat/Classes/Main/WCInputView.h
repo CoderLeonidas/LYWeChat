@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface WCInputView : UIView
+@property (weak, nonatomic) IBOutlet UITextView *textView;
 
 +(instancetype)inputView;
 

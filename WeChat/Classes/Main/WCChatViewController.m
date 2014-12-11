@@ -9,7 +9,7 @@
 #import "WCChatViewController.h"
 #import "WCInputView.h"
 
-@interface WCChatViewController ()<UITableViewDataSource,UITableViewDelegate,NSFetchedResultsControllerDelegate>{
+@interface WCChatViewController ()<UITableViewDataSource,UITableViewDelegate,NSFetchedResultsControllerDelegate,UITextViewDelegate>{
 
     NSFetchedResultsController *_resultsContr;
 
@@ -54,6 +54,8 @@
         
     self.inputViewConstraint.constant = kbHeight;
     
+    //表格滚动到底部
+    [self scrollToTableBottom];
     
 }
 
@@ -85,6 +87,7 @@
     UITableView *tableView = [[UITableView alloc] init];
     //tableView.backgroundColor = [UIColor redColor];
     tableView.delegate = self;
+    tableView.dataSource = self;
 #warning 代码实现自动布局，要设置下面的属性为NO
     tableView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:tableView];
@@ -93,6 +96,8 @@
     // 创建输入框View
     WCInputView *inputView = [WCInputView inputView];
     inputView.translatesAutoresizingMaskIntoConstraints = NO;
+    // 设置TextView代理
+    inputView.textView.delegate = self;
     [self.view addSubview:inputView];
     
     // 自动布局
@@ -141,10 +146,12 @@
     _resultsContr = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:context sectionNameKeyPath:nil cacheName:nil];
     
     NSError *err = nil;
-    [_resultsContr performFetch:&err];
-    
     // 代理
     _resultsContr.delegate = self;
+    
+    [_resultsContr performFetch:&err];
+    
+    NSLog(@"%@",_resultsContr.fetchedObjects);
     if (err) {
         WCLog(@"%@",err);
     }
@@ -167,7 +174,12 @@
     XMPPMessageArchiving_Message_CoreDataObject *msg =  _resultsContr.fetchedObjects[indexPath.row];
     
     //显示消息
-    cell.textLabel.text = msg.body;
+    if ([msg.outgoing boolValue]) {//自己发
+        cell.textLabel.text = [NSString stringWithFormat:@"Me: %@",msg.body];
+    }else{//别人发的
+        cell.textLabel.text = [NSString stringWithFormat:@"Other: %@",msg.body];
+    }
+    
     
     
     return cell;
@@ -178,5 +190,43 @@
 -(void)controllerDidChangeContent:(NSFetchedResultsController *)controller{
     // 刷新数据
     [self.tableView reloadData];
+    [self scrollToTableBottom];
+}
+
+#pragma mark TextView的代理
+-(void)textViewDidChange:(UITextView *)textView{
+       NSString *text = textView.text;
+    // 换行就等于点击了的send
+    if ([text rangeOfString:@"\n"].length != 0) {
+        NSLog(@"发送数据 %@",text);
+        [self sendMsgWithText:text];
+        //清空数据
+        textView.text = nil;
+        
+    }else{
+        NSLog(@"%@",textView.text);
+
+    }
+}
+
+
+#pragma mark 发送聊天消息
+-(void)sendMsgWithText:(NSString *)text{
+    
+    XMPPMessage *msg = [XMPPMessage messageWithType:@"chat" to:self.friendJid];
+    
+   
+    // 设置内容
+    [msg addBody:text];
+     NSLog(@"%@",msg);
+    [[WCXMPPTool sharedWCXMPPTool].xmppStream sendElement:msg];
+}
+
+#pragma mark 滚动到底部
+-(void)scrollToTableBottom{
+    NSInteger lastRow = _resultsContr.fetchedObjects.count - 1;
+    NSIndexPath *lastPath = [NSIndexPath indexPathForRow:lastRow inSection:0];
+    
+    [self.tableView scrollToRowAtIndexPath:lastPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
 }
 @end
