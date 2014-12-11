@@ -8,17 +8,30 @@
 
 #import "WCChatViewController.h"
 #import "WCInputView.h"
+#import "HttpTool.h"
+#import "UIImageView+WebCache.h"
 
-@interface WCChatViewController ()<UITableViewDataSource,UITableViewDelegate,NSFetchedResultsControllerDelegate,UITextViewDelegate>{
+@interface WCChatViewController ()<UITableViewDataSource,UITableViewDelegate,NSFetchedResultsControllerDelegate,UITextViewDelegate,UINavigationControllerDelegate, UIImagePickerControllerDelegate>{
 
     NSFetchedResultsController *_resultsContr;
 
 }
-@property (nonatomic, strong) NSLayoutConstraint *inputViewConstraint;//inputView底部约束
+@property (nonatomic, strong) NSLayoutConstraint *inputViewBottomConstraint;//inputView底部约束
+@property (nonatomic, strong) NSLayoutConstraint *inputViewHeightConstraint;//inputView高度约束
 @property (nonatomic, weak) UITableView *tableView;
+
+@property (nonatomic, strong) HttpTool *httpTool;
 @end
 
 @implementation WCChatViewController
+
+-(HttpTool *)httpTool{
+    if (!_httpTool) {
+        _httpTool = [[HttpTool alloc] init];
+    }
+    
+    return _httpTool;
+}
 
 -(void)viewDidLoad{
     [super viewDidLoad];
@@ -52,7 +65,7 @@
         kbHeight = kbEndFrm.size.width;
     }
         
-    self.inputViewConstraint.constant = kbHeight;
+    self.inputViewBottomConstraint.constant = kbHeight;
     
     //表格滚动到底部
     [self scrollToTableBottom];
@@ -61,24 +74,8 @@
 
 -(void)keyboardWillHide:(NSNotification *)noti{
     // 隐藏键盘的进修 距离底部的约束永远为0
-    self.inputViewConstraint.constant = 0;
+    self.inputViewBottomConstraint.constant = 0;
 }
-//-(void)kbFrmWillChange:(NSNotification *)noti{
-//    NSLog(@"%@",noti.userInfo);
-//    
-//    // 获取窗口的高度
-//    
-//    CGFloat windowH = [UIScreen mainScreen].bounds.size.height;
-//    
-//    
-//    
-//    // 键盘结束的Frm
-//    CGRect kbEndFrm = [noti.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
-//    // 获取键盘结束的y值
-//    CGFloat kbEndY = kbEndFrm.origin.y;
-//    
-//    self.inputViewConstraint.constant = windowH - kbEndY;
-//}
 
 
 -(void)setupView{
@@ -98,6 +95,9 @@
     inputView.translatesAutoresizingMaskIntoConstraints = NO;
     // 设置TextView代理
     inputView.textView.delegate = self;
+    
+    // 添加按钮事件
+    [inputView.addBtn addTarget:self action:@selector(addBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:inputView];
     
     // 自动布局
@@ -118,7 +118,9 @@
     // 垂直方向的约束
     NSArray *vContraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-64-[tableview]-0-[inputView(50)]-0-|" options:0 metrics:nil views:views];
     [self.view addConstraints:vContraints];
-    self.inputViewConstraint = [vContraints lastObject];
+    // 添加inputView的高度约束
+    self.inputViewHeightConstraint = vContraints[2];
+    self.inputViewBottomConstraint = [vContraints lastObject];
     NSLog(@"%@",vContraints);
 }
 
@@ -173,12 +175,32 @@
     // 获取聊天消息对象
     XMPPMessageArchiving_Message_CoreDataObject *msg =  _resultsContr.fetchedObjects[indexPath.row];
     
-    //显示消息
-    if ([msg.outgoing boolValue]) {//自己发
-        cell.textLabel.text = [NSString stringWithFormat:@"Me: %@",msg.body];
-    }else{//别人发的
-        cell.textLabel.text = [NSString stringWithFormat:@"Other: %@",msg.body];
+    
+    // 判断是图片还是纯文本
+    NSString *chatType = [msg.message attributeStringValueForName:@"bodyType"];
+    if ([chatType isEqualToString:@"image"]) {
+        //下图片显示
+        [cell.imageView sd_setImageWithURL:[NSURL URLWithString:msg.body] placeholderImage:[UIImage imageNamed:@"DefaultProfileHead_qq"]];
+        cell.textLabel.text = nil;
+    }else if([chatType isEqualToString:@"text"]){
+    
+        //显示消息
+        if ([msg.outgoing boolValue]) {//自己发
+            cell.textLabel.text = msg.body;
+        }else{//别人发的
+            cell.textLabel.text = msg.body;
+        }
+        
+        cell.imageView.image = nil;
     }
+    
+    
+//    //显示消息
+//    if ([msg.outgoing boolValue]) {//自己发
+//        cell.textLabel.text = [NSString stringWithFormat:@"Me: %@",msg.body];
+//    }else{//别人发的
+//        cell.textLabel.text = [NSString stringWithFormat:@"Other: %@",msg.body];
+//    }
     
     
     
@@ -195,13 +217,31 @@
 
 #pragma mark TextView的代理
 -(void)textViewDidChange:(UITextView *)textView{
-       NSString *text = textView.text;
+    //获取ContentSize
+    CGFloat contentH = textView.contentSize.height;
+    NSLog(@"textView的content的高度 %f",contentH);
+    
+    // 大于33，超过一行的高度/ 小于68 高度是在三行内
+    if (contentH > 33 && contentH < 68 ) {
+        self.inputViewHeightConstraint.constant = contentH + 18;
+    }
+    
+    NSString *text = textView.text;
+    
+    
     // 换行就等于点击了的send
     if ([text rangeOfString:@"\n"].length != 0) {
         NSLog(@"发送数据 %@",text);
-        [self sendMsgWithText:text];
+        
+        // 去除换行字符
+        text = [text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        
+        [self sendMsgWithText:text bodyType:@"text"];
         //清空数据
         textView.text = nil;
+        
+        // 发送完消息 把inputView的高度改回来
+        self.inputViewHeightConstraint.constant = 50;
         
     }else{
         NSLog(@"%@",textView.text);
@@ -211,10 +251,13 @@
 
 
 #pragma mark 发送聊天消息
--(void)sendMsgWithText:(NSString *)text{
+-(void)sendMsgWithText:(NSString *)text bodyType:(NSString *)bodyType{
     
     XMPPMessage *msg = [XMPPMessage messageWithType:@"chat" to:self.friendJid];
     
+    //text 纯文本
+    //image 图片
+    [msg addAttributeWithName:@"bodyType" stringValue:bodyType];
    
     // 设置内容
     [msg addBody:text];
@@ -225,8 +268,70 @@
 #pragma mark 滚动到底部
 -(void)scrollToTableBottom{
     NSInteger lastRow = _resultsContr.fetchedObjects.count - 1;
+    
+    if (lastRow < 0) {
+        //行数如果小于0，不能滚动
+        return;
+    }
     NSIndexPath *lastPath = [NSIndexPath indexPathForRow:lastRow inSection:0];
     
     [self.tableView scrollToRowAtIndexPath:lastPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
 }
+
+
+#pragma mark 选择图片
+-(void)addBtnClick{
+    UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+    imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    imagePicker.delegate = self;
+    [self presentViewController:imagePicker animated:YES completion:nil];
+
+}
+
+#pragma mark 选取后图片的回调
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
+    NSLog(@"%@",info);
+    // 隐藏图片选择器的窗口
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    // 获取图片
+    UIImage *image = info[UIImagePickerControllerOriginalImage];
+    
+    // 把图片发送到文件服务器
+    //http post put
+    /**
+     * put实现文件上传没post那烦锁，而且比POST快
+     * put的文件上传路径就是下载路径
+     
+     *文件上传路径 http://localhost:8080/imfileserver/Upload/Image/ + "图片名【程序员自已定义】"
+     */
+    
+    // 1.取文件名 用户名 + 时间(201412111537)年月日时分秒
+    NSString *user = [WCUserInfo sharedWCUserInfo].user;
+
+    NSDateFormatter *dataFormatter = [[NSDateFormatter alloc] init];
+    dataFormatter.dateFormat = @"yyyyMMddHHmmss";
+    NSString *timeStr = [dataFormatter stringFromDate:[NSDate date]];
+    
+    // 针对我的服务，文件名不用加后缀
+    NSString *fileName = [user stringByAppendingString:timeStr];
+    
+    // 2.拼接上传路径
+    NSString *uploadUrl = [@"http://localhost:8080/imfileserver/Upload/Image/" stringByAppendingString:fileName];
+    
+    
+    // 3.使用HTTP put 上传
+#warning 图片上传请使用jpg格式 因为我写的服务器只接接收jpg
+    [self.httpTool uploadData:UIImageJPEGRepresentation(image, 0.75) url:[NSURL URLWithString:uploadUrl] progressBlock:nil completion:^(NSError *error) {
+       
+        if (!error) {
+            NSLog(@"上传成功");
+            [self sendMsgWithText:uploadUrl bodyType:@"image"];
+        }
+    }];
+    
+    
+    // 图片发送成功，把图片的URL传Openfire的服务
+}
+
 @end
