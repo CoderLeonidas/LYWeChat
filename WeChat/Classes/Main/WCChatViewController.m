@@ -24,28 +24,53 @@
     
     // 键盘监听
     // 监听键盘
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(kbFrmWillChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
     
 }
 
--(void)kbFrmWillChange:(NSNotification *)noti{
-    NSLog(@"%@",noti.userInfo);
-    
-    // 获取窗口的高度
-    
-    CGFloat windowH = [UIScreen mainScreen].bounds.size.height;
-    
-    
-    
-    // 键盘结束的Frm
+-(void)keyboardWillShow:(NSNotification *)noti{
+    NSLog(@"%@",noti);
+    // 获取键盘的高度
     CGRect kbEndFrm = [noti.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    // 获取键盘结束的y值
-    CGFloat kbEndY = kbEndFrm.origin.y;
     
-    self.inputViewConstraint.constant = windowH - kbEndY;
+    CGFloat kbHeight =  kbEndFrm.size.height;
+    
+    //竖屏{{0, 0}, {768, 264}
+    //横屏{{0, 0}, {352, 1024}}
+    // 如果是ios7以下的，当屏幕是横屏，键盘的高底是size.with
+    if([[UIDevice currentDevice].systemVersion doubleValue] < 8.0
+       && UIInterfaceOrientationIsLandscape(self.interfaceOrientation)){
+        kbHeight = kbEndFrm.size.width;
+    }
+        
+    self.inputViewConstraint.constant = kbHeight;
+    
+    
 }
+
+-(void)keyboardWillHide:(NSNotification *)noti{
+    // 隐藏键盘的进修 距离底部的约束永远为0
+    self.inputViewConstraint.constant = 0;
+}
+//-(void)kbFrmWillChange:(NSNotification *)noti{
+//    NSLog(@"%@",noti.userInfo);
+//    
+//    // 获取窗口的高度
+//    
+//    CGFloat windowH = [UIScreen mainScreen].bounds.size.height;
+//    
+//    
+//    
+//    // 键盘结束的Frm
+//    CGRect kbEndFrm = [noti.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+//    // 获取键盘结束的y值
+//    CGFloat kbEndY = kbEndFrm.origin.y;
+//    
+//    self.inputViewConstraint.constant = windowH - kbEndY;
+//}
 
 
 -(void)setupView{
