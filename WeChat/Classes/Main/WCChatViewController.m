@@ -9,9 +9,13 @@
 #import "WCChatViewController.h"
 #import "WCInputView.h"
 
-@interface WCChatViewController ()
-@property (nonatomic, strong) NSLayoutConstraint *inputViewConstraint;//inputView底部约束
+@interface WCChatViewController ()<UITableViewDataSource,UITableViewDelegate,NSFetchedResultsControllerDelegate>{
 
+    NSFetchedResultsController *_resultsContr;
+
+}
+@property (nonatomic, strong) NSLayoutConstraint *inputViewConstraint;//inputView底部约束
+@property (nonatomic, weak) UITableView *tableView;
 @end
 
 @implementation WCChatViewController
@@ -28,6 +32,8 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
+    // 加载数据
+    [self loadMsgs];
     
 }
 
@@ -77,11 +83,12 @@
     // 代码方式实现自动布局 VFL
     // 创建一个Tableview;
     UITableView *tableView = [[UITableView alloc] init];
-    tableView.backgroundColor = [UIColor redColor];
-
+    //tableView.backgroundColor = [UIColor redColor];
+    tableView.delegate = self;
 #warning 代码实现自动布局，要设置下面的属性为NO
     tableView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:tableView];
+    self.tableView = tableView;
     
     // 创建输入框View
     WCInputView *inputView = [WCInputView inputView];
@@ -110,4 +117,66 @@
     NSLog(@"%@",vContraints);
 }
 
+#pragma mark 加载XMPPMessageArchiving数据库的数据显示在表格
+-(void)loadMsgs{
+
+    // 上下文
+    NSManagedObjectContext *context = [WCXMPPTool sharedWCXMPPTool].msgStorage.mainThreadManagedObjectContext;
+    // 请求对象
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"XMPPMessageArchiving_Message_CoreDataObject"];
+    
+    
+    // 过滤、排序
+    // 1.当前登录用户的JID的消息
+    // 2.好友的Jid的消息
+    NSPredicate *pre = [NSPredicate predicateWithFormat:@"streamBareJidStr = %@ AND bareJidStr = %@",[WCUserInfo sharedWCUserInfo].jid,self.friendJid.bare];
+    NSLog(@"%@",pre);
+    request.predicate = pre;
+    
+    // 时间升序
+    NSSortDescriptor *timeSort = [NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES];
+    request.sortDescriptors = @[timeSort];
+   
+    // 查询
+    _resultsContr = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:context sectionNameKeyPath:nil cacheName:nil];
+    
+    NSError *err = nil;
+    [_resultsContr performFetch:&err];
+    
+    // 代理
+    _resultsContr.delegate = self;
+    if (err) {
+        WCLog(@"%@",err);
+    }
+}
+
+#pragma mark -表格的数据源
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return _resultsContr.fetchedObjects.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *ID = @"ChatCell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:ID];
+    }
+    
+    // 获取聊天消息对象
+    XMPPMessageArchiving_Message_CoreDataObject *msg =  _resultsContr.fetchedObjects[indexPath.row];
+    
+    //显示消息
+    cell.textLabel.text = msg.body;
+    
+    
+    return cell;
+}
+
+
+#pragma mark ResultController的代理
+-(void)controllerDidChangeContent:(NSFetchedResultsController *)controller{
+    // 刷新数据
+    [self.tableView reloadData];
+}
 @end
