@@ -87,6 +87,8 @@ singleton_implementation(WCXMPPTool)
     _msgArchiving = [[XMPPMessageArchiving alloc] initWithMessageArchivingStorage:_msgStorage];
     [_msgArchiving activate:_xmppStream];
     
+    _xmppStream.enableBackgroundingOnSocket = YES;
+    
     // 设置代理
     [_xmppStream addDelegate:self delegateQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];
 }
@@ -278,6 +280,39 @@ singleton_implementation(WCXMPPTool)
         _resultBlock(XMPPResultTypeRegisterFailure);
     }
     
+}
+
+#pragma mark 接收到好友消息
+-(void)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message{
+    WCLog(@"%@",message);
+    
+    //如果当前程序不在前台，发出一个本地通知
+    if([UIApplication sharedApplication].applicationState != UIApplicationStateActive){
+        WCLog(@"在后台");
+        
+        //本地通知
+        UILocalNotification *localNoti = [[UILocalNotification alloc] init];
+        
+        // 设置内容
+        localNoti.alertBody = [NSString stringWithFormat:@"%@\n%@",message.fromStr,message.body];
+        
+        // 设置通知执行时间
+        localNoti.fireDate = [NSDate date];
+        
+        //声音
+        localNoti.soundName = @"default";
+        
+        //执行
+        [[UIApplication sharedApplication] scheduleLocalNotification:localNoti];
+        
+        //{"aps":{'alert':"zhangsan\n have dinner":'sound':'default',badge:'12'}}
+    }
+}
+
+-(void)xmppStream:(XMPPStream *)sender didReceivePresence:(XMPPPresence *)presence{
+    //XMPPPresence 在线 离线
+    
+    //presence.from 消息是谁发送过来
 }
 
 #pragma mark -公共方法

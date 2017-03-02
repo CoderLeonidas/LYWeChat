@@ -43,7 +43,18 @@
         });
         
     }
+    
+    //注册应用接收通知
+    if ([[UIDevice currentDevice].systemVersion doubleValue] > 8.0){
+        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound categories:nil];
+        [application registerUserNotificationSettings:settings];
+    }
+    
+    
     return YES;
 }
+
+
+
 
 @end
