@@ -567,6 +567,7 @@
 		18E5BAD41A358C5F00A09FC8 /* WCBaseLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WCBaseLoginViewController.m; sourceTree = "<group>"; };
 		18E5BAD91A3592B300A09FC8 /* WCRegisgerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WCRegisgerViewController.h; sourceTree = "<group>"; };
 		18E5BADA1A3592B300A09FC8 /* WCRegisgerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WCRegisgerViewController.m; sourceTree = "<group>"; };
+		26B7B4A41E680D0300EF1AEF /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -657,6 +658,7 @@
 				1843D6151A32FC470084BAAF /* WeChat */,
 				1843D62F1A32FC470084BAAF /* WeChatTests */,
 				1843D6141A32FC470084BAAF /* Products */,
+				26B7B4A31E680D0300EF1AEF /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1647,6 +1649,14 @@
 				18840FB11A36806E00F6C1AB /* WCXMPPTool.m */,
 			);
 			name = Singleton;
+			sourceTree = "<group>";
+		};
+		26B7B4A31E680D0300EF1AEF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				26B7B4A41E680D0300EF1AEF /* libxml2.tbd */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
