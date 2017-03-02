@@ -1698,6 +1698,8 @@
 				TargetAttributes = {
 					1843D6121A32FC470084BAAF = {
 						CreatedOnToolsVersion = 6.1;
+						DevelopmentTeam = H2H4C4T387;
+						ProvisioningStyle = Automatic;
 					};
 					1843D62B1A32FC470084BAAF = {
 						CreatedOnToolsVersion = 6.1;
@@ -2054,6 +2056,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = H2H4C4T387;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = WeChat/PrefixHeader.pch;
 				HEADER_SEARCH_PATHS = (
@@ -2069,7 +2073,7 @@
 					"$(PROJECT_DIR)/WeChat/Classes/Lib/XMPP/Vendor/libidn",
 				);
 				OTHER_LDFLAGS = "-lxml2";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.itheima.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.Leonidas;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -2079,6 +2083,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = H2H4C4T387;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = WeChat/PrefixHeader.pch;
 				HEADER_SEARCH_PATHS = (
@@ -2094,7 +2100,7 @@
 					"$(PROJECT_DIR)/WeChat/Classes/Lib/XMPP/Vendor/libidn",
 				);
 				OTHER_LDFLAGS = "-lxml2";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.itheima.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.Leonidas;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
