@@ -1,9 +1,9 @@
 //
 //  HttpTool.m
-//  02-文件上传下载工具抽取
+//  文件上传下载工具抽取
 //
-//  Created by Vincent_Guo on 14-6-9.
-//  Copyright (c) 2014年 itcast. All rights reserved.
+//  Created by Leon on 17/3/3.
+//  Copyright (c) 2017年 Leon. All rights reserved.
 //
 
 #import "HttpTool.h"
@@ -176,7 +176,7 @@
 }
 
 
-#pragma mark -传一个文件名，返回一个在沙盒Document下的文件路径
+#pragma mark - 传一个文件名，返回一个在沙盒Document下的文件路径
 -(NSString *)fileSavePath:(NSString *)fileName{
     NSString *document = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
     //图片保存在沙盒的Doucument下

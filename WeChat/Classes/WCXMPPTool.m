@@ -2,11 +2,16 @@
 //  WCXMPPTool.m
 //  WeChat
 //
-//  Created by apple on 14/12/9.
-//  Copyright (c) 2014年 heima. All rights reserved.
+//  Created by Leon on 17/3/4.
+//  Copyright (c) 2017年 Leon. All rights reserved.
 //
 
 #import "WCXMPPTool.h"
+
+//服务器地址
+#define HostName  @"luoyang.local"
+#define HostPort  5222
+
 NSString *const WCLoginStatusChangeNotification = @"WCLoginStatusNotification";
 /*
  * 在AppDelegate实现登录
@@ -32,19 +37,19 @@ NSString *const WCLoginStatusChangeNotification = @"WCLoginStatusNotification";
 
 }
 
-// 1. 初始化XMPPStream
--(void)setupXMPPStream;
-
-
-// 2.连接到服务器
--(void)connectToHost;
-
-// 3.连接到服务成功后，再发送密码授权
--(void)sendPwdToHost;
-
-
-// 4.授权成功后，发送"在线" 消息
--(void)sendOnlineToHost;
+//// 1. 初始化XMPPStream
+//-(void)setupXMPPStream;
+//
+//
+//// 2.连接到服务器
+//-(void)connectToHost;
+//
+//// 3.连接到服务成功后，再发送密码授权
+//-(void)sendPwdToHost;
+//
+//
+//// 4.授权成功后，发送"在线" 消息
+//-(void)sendOnlineToHost;
 @end
 
 
@@ -142,14 +147,14 @@ singleton_implementation(WCXMPPTool)
         user = [WCUserInfo sharedWCUserInfo].user;
     }
     
-    XMPPJID *myJID = [XMPPJID jidWithUser:user domain:@"teacher.local" resource:@"iphone" ];
+    XMPPJID *myJID = [XMPPJID jidWithUser:user domain:HostName resource:@"iphone" ];
     _xmppStream.myJID = myJID;
     
     // 设置服务器域名
-    _xmppStream.hostName = @"teacher.local";//不仅可以是域名，还可是IP地址
+    _xmppStream.hostName = HostName;//不仅可以是域名，还可是IP地址
     
     // 设置端口 如果服务器端口是5222，可以省略
-    _xmppStream.hostPort = 5222;
+    _xmppStream.hostPort = HostPort;
     
     // 连接
     NSError *err = nil;
@@ -183,8 +188,6 @@ singleton_implementation(WCXMPPTool)
     WCLog(@"%@",presence);
     
     [_xmppStream sendElement:presence];
-    
-    
 }
 
 

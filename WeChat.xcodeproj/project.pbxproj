@@ -643,9 +643,7 @@
 		180B04B41A39266B00EB0F3D /* View */ = {
 			isa = PBXGroup;
 			children = (
-				180B04B51A39268100EB0F3D /* WCInputView.h */,
-				180B04B61A39268100EB0F3D /* WCInputView.m */,
-				180B04B81A39269300EB0F3D /* WCInputView.xib */,
+				260E0DE61E69B4F80043BE72 /* 输入框 */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -1555,14 +1553,11 @@
 		18E5BAA11A352CFF00A09FC8 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				18E5BAA21A352D2C00A09FC8 /* WCOtherLoginViewController.h */,
-				18E5BAA31A352D2C00A09FC8 /* WCOtherLoginViewController.m */,
-				18E5BACB1A357F7A00A09FC8 /* WCLoginViewController.h */,
-				18E5BACC1A357F7A00A09FC8 /* WCLoginViewController.m */,
 				18E5BAD31A358C5F00A09FC8 /* WCBaseLoginViewController.h */,
 				18E5BAD41A358C5F00A09FC8 /* WCBaseLoginViewController.m */,
-				18E5BAD91A3592B300A09FC8 /* WCRegisgerViewController.h */,
-				18E5BADA1A3592B300A09FC8 /* WCRegisgerViewController.m */,
+				260E0DDD1E69B3D60043BE72 /* 其他方式登录 */,
+				260E0DDE1E69B3EB0043BE72 /* 登录 */,
+				260E0DDF1E69B4180043BE72 /* 注册 */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -1621,18 +1616,12 @@
 		18E5BAC71A35529B00A09FC8 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				18E5BAC81A3552C900A09FC8 /* WCMeViewController.h */,
-				18E5BAC91A3552C900A09FC8 /* WCMeViewController.m */,
-				18840FB31A369D9C00F6C1AB /* WCProfileViewController.h */,
-				18840FB41A369D9C00F6C1AB /* WCProfileViewController.m */,
-				18840FB61A36D1FB00F6C1AB /* WCEditProfileViewController.h */,
-				18840FB71A36D1FB00F6C1AB /* WCEditProfileViewController.m */,
-				18840FB91A36E67700F6C1AB /* WCContactsViewController.h */,
-				18840FBA1A36E67700F6C1AB /* WCContactsViewController.m */,
-				18840FBC1A36F7C500F6C1AB /* WCAddContactViewController.h */,
-				18840FBD1A36F7C500F6C1AB /* WCAddContactViewController.m */,
-				180B04B11A39261100EB0F3D /* WCChatViewController.h */,
-				180B04B21A39261100EB0F3D /* WCChatViewController.m */,
+				260E0DE01E69B4340043BE72 /* 我 */,
+				260E0DE41E69B4B20043BE72 /* 个人信息 */,
+				260E0DE51E69B4C60043BE72 /* 编辑个人信息 */,
+				260E0DE11E69B45C0043BE72 /* 联系人 */,
+				260E0DE21E69B46D0043BE72 /* 添加联系人 */,
+				260E0DE31E69B4920043BE72 /* 聊天 */,
 				1809D84C1A398D9E00E625C7 /* WCHistoryViewController.h */,
 				1809D84D1A398D9E00E625C7 /* WCHistoryViewController.m */,
 			);
@@ -1649,6 +1638,97 @@
 				18840FB11A36806E00F6C1AB /* WCXMPPTool.m */,
 			);
 			name = Singleton;
+			sourceTree = "<group>";
+		};
+		260E0DDD1E69B3D60043BE72 /* 其他方式登录 */ = {
+			isa = PBXGroup;
+			children = (
+				18E5BAA21A352D2C00A09FC8 /* WCOtherLoginViewController.h */,
+				18E5BAA31A352D2C00A09FC8 /* WCOtherLoginViewController.m */,
+			);
+			name = "其他方式登录";
+			sourceTree = "<group>";
+		};
+		260E0DDE1E69B3EB0043BE72 /* 登录 */ = {
+			isa = PBXGroup;
+			children = (
+				18E5BACB1A357F7A00A09FC8 /* WCLoginViewController.h */,
+				18E5BACC1A357F7A00A09FC8 /* WCLoginViewController.m */,
+			);
+			name = "登录";
+			sourceTree = "<group>";
+		};
+		260E0DDF1E69B4180043BE72 /* 注册 */ = {
+			isa = PBXGroup;
+			children = (
+				18E5BAD91A3592B300A09FC8 /* WCRegisgerViewController.h */,
+				18E5BADA1A3592B300A09FC8 /* WCRegisgerViewController.m */,
+			);
+			name = "注册";
+			sourceTree = "<group>";
+		};
+		260E0DE01E69B4340043BE72 /* 我 */ = {
+			isa = PBXGroup;
+			children = (
+				18E5BAC81A3552C900A09FC8 /* WCMeViewController.h */,
+				18E5BAC91A3552C900A09FC8 /* WCMeViewController.m */,
+			);
+			name = "我";
+			sourceTree = "<group>";
+		};
+		260E0DE11E69B45C0043BE72 /* 联系人 */ = {
+			isa = PBXGroup;
+			children = (
+				18840FB91A36E67700F6C1AB /* WCContactsViewController.h */,
+				18840FBA1A36E67700F6C1AB /* WCContactsViewController.m */,
+			);
+			name = "联系人";
+			sourceTree = "<group>";
+		};
+		260E0DE21E69B46D0043BE72 /* 添加联系人 */ = {
+			isa = PBXGroup;
+			children = (
+				18840FBC1A36F7C500F6C1AB /* WCAddContactViewController.h */,
+				18840FBD1A36F7C500F6C1AB /* WCAddContactViewController.m */,
+			);
+			name = "添加联系人";
+			sourceTree = "<group>";
+		};
+		260E0DE31E69B4920043BE72 /* 聊天 */ = {
+			isa = PBXGroup;
+			children = (
+				180B04B11A39261100EB0F3D /* WCChatViewController.h */,
+				180B04B21A39261100EB0F3D /* WCChatViewController.m */,
+			);
+			name = "聊天";
+			sourceTree = "<group>";
+		};
+		260E0DE41E69B4B20043BE72 /* 个人信息 */ = {
+			isa = PBXGroup;
+			children = (
+				18840FB31A369D9C00F6C1AB /* WCProfileViewController.h */,
+				18840FB41A369D9C00F6C1AB /* WCProfileViewController.m */,
+			);
+			name = "个人信息";
+			sourceTree = "<group>";
+		};
+		260E0DE51E69B4C60043BE72 /* 编辑个人信息 */ = {
+			isa = PBXGroup;
+			children = (
+				18840FB61A36D1FB00F6C1AB /* WCEditProfileViewController.h */,
+				18840FB71A36D1FB00F6C1AB /* WCEditProfileViewController.m */,
+			);
+			name = "编辑个人信息";
+			sourceTree = "<group>";
+		};
+		260E0DE61E69B4F80043BE72 /* 输入框 */ = {
+			isa = PBXGroup;
+			children = (
+				180B04B51A39268100EB0F3D /* WCInputView.h */,
+				180B04B61A39268100EB0F3D /* WCInputView.m */,
+				180B04B81A39269300EB0F3D /* WCInputView.xib */,
+			);
+			name = "输入框";
 			sourceTree = "<group>";
 		};
 		26B7B4A31E680D0300EF1AEF /* Frameworks */ = {

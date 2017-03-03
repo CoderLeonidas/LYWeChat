@@ -2,8 +2,8 @@
 //  WCChatViewController.m
 //  WeChat
 //
-//  Created by apple on 14/12/11.
-//  Copyright (c) 2014年 heima. All rights reserved.
+//  Created by Leon on 17/3/4.
+//  Copyright (c) 2017年 Leon. All rights reserved.
 //
 
 #import "WCChatViewController.h"
@@ -183,26 +183,16 @@
         [cell.imageView sd_setImageWithURL:[NSURL URLWithString:msg.body] placeholderImage:[UIImage imageNamed:@"DefaultProfileHead_qq"]];
         cell.textLabel.text = nil;
     }else if([chatType isEqualToString:@"text"]){
-    
-        //显示消息
+        
+        //    //显示消息
         if ([msg.outgoing boolValue]) {//自己发
-            cell.textLabel.text = msg.body;
+            cell.textLabel.text = [NSString stringWithFormat:@"Me: %@",msg.body];
         }else{//别人发的
-            cell.textLabel.text = msg.body;
+            cell.textLabel.text = [NSString stringWithFormat:@"Other: %@",msg.body];
         }
         
         cell.imageView.image = nil;
     }
-    
-    
-//    //显示消息
-//    if ([msg.outgoing boolValue]) {//自己发
-//        cell.textLabel.text = [NSString stringWithFormat:@"Me: %@",msg.body];
-//    }else{//别人发的
-//        cell.textLabel.text = [NSString stringWithFormat:@"Other: %@",msg.body];
-//    }
-    
-    
     
     return cell;
 }

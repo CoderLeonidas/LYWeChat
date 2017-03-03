@@ -2,8 +2,8 @@
 //  WCHistoryViewController.m
 //  WeChat
 //
-//  Created by apple on 14/12/11.
-//  Copyright (c) 2014年 heima. All rights reserved.
+//  Created by Leon on 17/3/4.
+//  Copyright (c) 2017年 Leon. All rights reserved.
 //
 
 #import "WCHistoryViewController.h"
@@ -19,7 +19,6 @@
     [super viewDidLoad];
     
     // 监听一个登录状态的通知
-    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(xxx:) name:UIKeyboardWillHideNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginStatusChange:) name:WCLoginStatusChangeNotification object:nil];
 }
 

@@ -2,13 +2,13 @@
 //  WCUserInfo.h
 //  WeChat
 //
-//  Created by apple on 14/12/8.
-//  Copyright (c) 2014年 heima. All rights reserved.
+//  Created by Leon on 17/3/4.
+//  Copyright (c) 2017年 Leon. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import "Singleton.h"
-static NSString *domain = @"teacher.local";
+static NSString *domain = @"luoyang.local";
 @interface WCUserInfo : NSObject
 
 singleton_interface(WCUserInfo);

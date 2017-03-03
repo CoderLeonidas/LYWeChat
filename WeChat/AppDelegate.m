@@ -2,8 +2,8 @@
 //  AppDelegate.m
 //  02.XMPP框架的导入
 //
-//  Created by apple on 14/12/6.
-//  Copyright (c) 2014年 heima. All rights reserved.
+//  Created by Leon on 17/3/4.
+//  Copyright (c) 2017年 Leon. All rights reserved.
 //
 
 #import "AppDelegate.h"
@@ -11,6 +11,11 @@
 #import "DDTTYLogger.h"
 #import "WCNavigationController.h"
 #import "XMPPFramework.h"
+
+
+#define systemVersionIsHigherThan(aVersion) [[UIDevice currentDevice].systemVersion doubleValue] > aVersion
+#define systemVersionIsLowerThan(aVersion) [[UIDevice currentDevice].systemVersion doubleValue] < aVersion
+
 
 @implementation AppDelegate
 
@@ -37,13 +42,14 @@
 // 自动登录服务
 // 1秒后再自动登录
 #warning 一般情况下，都不会马上连接，会稍微等等
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [[WCXMPPTool sharedWCXMPPTool] xmppUserLogin:nil];
         });
     }
-
     //注册应用接收通知
-    if ([[UIDevice currentDevice].systemVersion doubleValue] > 8.0) {
+    if (systemVersionIsHigherThan(8) ) {
+        //注册本地通知
         UIUserNotificationSettings* settings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound categories:nil];
         [application registerUserNotificationSettings:settings];
     }

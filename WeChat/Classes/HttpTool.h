@@ -1,9 +1,9 @@
 //
 //  HttpTool.h
-//  02-文件上传下载工具抽取
+//  文件上传下载工具抽取
 //
-//  Created by Vincent_Guo on 14-6-9.
-//  Copyright (c) 2014年 itcast. All rights reserved.
+//  Created by Leon on 17/3/3.
+//  Copyright (c) 2017年 Leon. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -11,10 +11,11 @@
 typedef void (^HttpToolProgressBlock)(CGFloat progress);
 typedef void (^HttpToolCompletionBlock)(NSError *error);
 
-
-
 @interface HttpTool : NSObject
 
+/**
+ 上传数据
+ */
 -(void)uploadData:(NSData *)data
               url:(NSURL *)url
     progressBlock : (HttpToolProgressBlock)progressBlock
