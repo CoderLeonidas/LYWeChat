@@ -34,7 +34,7 @@
             case XMPPResultTypeConnecting://正在连接
                 [self.indicatorView startAnimating];
                 break;
-            case XMPPResultTypeNetErr://连接失败
+            case XMPPResultTypeNetErr://连接失败，网络错误
                 [self.indicatorView stopAnimating];
                 break;
             case XMPPResultTypeLoginSuccess://登录成功也就是连接成功

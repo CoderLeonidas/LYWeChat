@@ -101,7 +101,7 @@
                                     <constraint firstAttribute="width" constant="95" id="np8-gi-y3a"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <state key="normal" title="其实方式登录">
+                                <state key="normal" title="其它方式登录">
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>

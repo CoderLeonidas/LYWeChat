@@ -32,24 +32,7 @@ NSString *const WCLoginStatusChangeNotification = @"WCLoginStatusNotification";
     XMPPvCardAvatarModule *_avatar;//头像模块
     
     XMPPMessageArchiving *_msgArchiving;//聊天模块
-   
-    
-
 }
-
-//// 1. 初始化XMPPStream
-//-(void)setupXMPPStream;
-//
-//
-//// 2.连接到服务器
-//-(void)connectToHost;
-//
-//// 3.连接到服务成功后，再发送密码授权
-//-(void)sendPwdToHost;
-//
-//
-//// 4.授权成功后，发送"在线" 消息
-//-(void)sendOnlineToHost;
 @end
 
 
@@ -57,8 +40,6 @@ NSString *const WCLoginStatusChangeNotification = @"WCLoginStatusNotification";
 
 
 singleton_implementation(WCXMPPTool)
-
-
 
 #pragma mark  -私有方法
 #pragma mark 初始化XMPPStream
@@ -146,7 +127,6 @@ singleton_implementation(WCXMPPTool)
     }else{
         user = [WCUserInfo sharedWCUserInfo].user;
     }
-    
     XMPPJID *myJID = [XMPPJID jidWithUser:user domain:HostName resource:@"iphone" ];
     _xmppStream.myJID = myJID;
     
@@ -161,7 +141,6 @@ singleton_implementation(WCXMPPTool)
     if(![_xmppStream connectWithTimeout:XMPPStreamTimeoutNone error:&err]){
         WCLog(@"%@",err);
     }
-    
 }
 
 
@@ -182,11 +161,10 @@ singleton_implementation(WCXMPPTool)
 
 #pragma mark  授权成功后，发送"在线" 消息
 -(void)sendOnlineToHost{
-    
     WCLog(@"发送 在线 消息");
     XMPPPresence *presence = [XMPPPresence presence];
     WCLog(@"%@",presence);
-    
+    //上线或者下线成功后，向服务器发送Presence数据，以更新用户在服务器的状态
     [_xmppStream sendElement:presence];
 }
 
@@ -300,7 +278,7 @@ singleton_implementation(WCXMPPTool)
         localNoti.alertBody = [NSString stringWithFormat:@"%@\n%@",message.fromStr,message.body];
         
         // 设置通知执行时间
-        localNoti.fireDate = [NSDate date];
+        localNoti.fireDate = [NSDate date];//立刻执行
         
         //声音
         localNoti.soundName = @"default";
@@ -316,6 +294,7 @@ singleton_implementation(WCXMPPTool)
     //XMPPPresence 在线 离线
     
     //presence.from 消息是谁发送过来
+    WCLog(@"presence.from=%@", presence.from);
 }
 
 #pragma mark -公共方法
@@ -328,31 +307,23 @@ singleton_implementation(WCXMPPTool)
     [_xmppStream disconnect];
     
     // 3. 回到登录界面
-//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
-//    
-//    self.window.rootViewController = storyboard.instantiateInitialViewController;
     [UIStoryboard showInitialVCWithName:@"Login"];
-    
     
     //4.更新用户的登录状态
     [WCUserInfo sharedWCUserInfo].loginStatus = NO;
     [[WCUserInfo sharedWCUserInfo] saveUserInfoToSanbox];
-    
 }
 
 -(void)xmppUserLogin:(XMPPResultBlock)resultBlock{
     
     // 先把block存起来
     _resultBlock = resultBlock;
-    
-    //    Domain=XMPPStreamErrorDomain Code=1 "Attempting to connect while already connected or connecting." UserInfo=0x7fd86bf06700 {NSLocalizedDescription=Attempting to connect while already connected or connecting.}
     // 如果以前连接过服务，要断开
     [_xmppStream disconnect];
     
     // 连接主机 成功后发送登录密码
     [self connectToHost];
 }
-
 
 -(void)xmppUserRegister:(XMPPResultBlock)resultBlock{
     // 先把block存起来
@@ -364,7 +335,6 @@ singleton_implementation(WCXMPPTool)
     // 连接主机 成功后发送注册密码
     [self connectToHost];
 }
-
 
 -(void)dealloc{
     [self teardownXmpp];

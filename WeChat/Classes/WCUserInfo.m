@@ -25,7 +25,6 @@ singleton_implementation(WCUserInfo)
     [defaults setBool:self.loginStatus forKey:LoginStatusKey];
     [defaults setObject:self.pwd forKey:PwdKey];
     [defaults synchronize];
-    
 }
 
 -(void)loadUserInfoFromSanbox{

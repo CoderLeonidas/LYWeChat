@@ -871,7 +871,7 @@
 				1843D6791A32FC780084BAAF /* GoogleSharedStatus */,
 				1843D67C1A32FC780084BAAF /* ProcessOne */,
 				1843D67F1A32FC780084BAAF /* Reconnect【自动连接模块】 */,
-				1843D6821A32FC780084BAAF /* Roster[花名册模块好友列表] */,
+				1843D6821A32FC780084BAAF /* Roster【花名册好友列表】 */,
 				1843D69A1A32FC780084BAAF /* SystemInputActivityMonitor */,
 				1843D69D1A32FC780084BAAF /* XEP-0009 */,
 				1843D6A41A32FC780084BAAF /* XEP-0012 */,
@@ -953,7 +953,7 @@
 			path = Reconnect;
 			sourceTree = "<group>";
 		};
-		1843D6821A32FC780084BAAF /* Roster[花名册模块好友列表] */ = {
+		1843D6821A32FC780084BAAF /* Roster【花名册好友列表】 */ = {
 			isa = PBXGroup;
 			children = (
 				1843D6831A32FC780084BAAF /* CoreDataStorage */,
@@ -964,7 +964,7 @@
 				1843D6981A32FC780084BAAF /* XMPPRosterPrivate.h */,
 				1843D6991A32FC780084BAAF /* XMPPUser.h */,
 			);
-			name = "Roster[花名册模块好友列表]";
+			name = "Roster【花名册好友列表】";
 			path = Roster;
 			sourceTree = "<group>";
 		};
@@ -2177,6 +2177,7 @@
 				DEVELOPMENT_TEAM = H2H4C4T387;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = WeChat/PrefixHeader.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = NS_BLOCK_ASSERTIONS;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Applications/Xcode\\ 2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include",

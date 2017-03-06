@@ -25,9 +25,6 @@
     NSString* path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
     NSLog(@"%@", path);
 
-    // 打开XMPP的日志
-    //[DDLog addLogger:[DDTTYLogger sharedInstance]];
-
     // 设置导航栏背景
     [WCNavigationController setupNavTheme];
 
@@ -47,9 +44,8 @@
             [[WCXMPPTool sharedWCXMPPTool] xmppUserLogin:nil];
         });
     }
-    //注册应用接收通知
+    //注册应用接收本地通知
     if (systemVersionIsHigherThan(8) ) {
-        //注册本地通知
         UIUserNotificationSettings* settings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound categories:nil];
         [application registerUserNotificationSettings:settings];
     }

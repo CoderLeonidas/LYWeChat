@@ -41,8 +41,6 @@
 
 - (IBAction)registerBtnClick {
     
-    
-    
     [self.view endEditing:YES];
     
     // 判断用户输入的是否为手机号码

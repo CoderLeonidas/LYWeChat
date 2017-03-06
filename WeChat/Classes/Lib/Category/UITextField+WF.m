@@ -2,8 +2,8 @@
 //  UITextField+WF.m
 //  WeiXin
 //
-//  Created by Yong Feng Guo on 14-11-21.
-//  Copyright (c) 2014年 Fung. All rights reserved.
+//  Created by Leon on 17-3-2.
+//  Copyright (c) 2017年 Leon. All rights reserved.
 //
 
 #import "UITextField+WF.h"
@@ -37,8 +37,10 @@
 
 -(BOOL)isTelphoneNum{
     
-    NSString *telRegex = @"^1[3578]\\d{9}$";
-    NSPredicate *prediate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", telRegex];
-    return [prediate evaluateWithObject:self.text];
+//    NSString *telRegex = @"^1[3578]\\d{9}$";
+//    NSPredicate *prediate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", telRegex];
+//    return [prediate evaluateWithObject:self.text];
+    
+    return YES;
 }
 @end

@@ -2,8 +2,8 @@
 //  UIButton+WF.m
 //  WeiXin
 //
-//  Created by Yong Feng Guo on 14-11-18.
-//  Copyright (c) 2014年 Fung. All rights reserved.
+//  Created by Leon on 17-3-2.
+//  Copyright (c) 2017年 Leon. All rights reserved.
 //
 
 #import "UIButton+WF.h"
