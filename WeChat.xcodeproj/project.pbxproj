@@ -30,7 +30,6 @@
 		180B04B91A39269300EB0F3D /* WCInputView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 180B04B81A39269300EB0F3D /* WCInputView.xib */; };
 		1843D6191A32FC470084BAAF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1843D6181A32FC470084BAAF /* main.m */; };
 		1843D61C1A32FC470084BAAF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1843D61B1A32FC470084BAAF /* AppDelegate.m */; };
-		1843D61F1A32FC470084BAAF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1843D61E1A32FC470084BAAF /* ViewController.m */; };
 		1843D6221A32FC470084BAAF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1843D6201A32FC470084BAAF /* Main.storyboard */; };
 		1843D6241A32FC470084BAAF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1843D6231A32FC470084BAAF /* Images.xcassets */; };
 		1843D6271A32FC470084BAAF /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1843D6251A32FC470084BAAF /* LaunchScreen.xib */; };
@@ -247,8 +246,6 @@
 		1843D6181A32FC470084BAAF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		1843D61A1A32FC470084BAAF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ../../AppDelegate.h; sourceTree = "<group>"; };
 		1843D61B1A32FC470084BAAF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = ../../AppDelegate.m; sourceTree = "<group>"; };
-		1843D61D1A32FC470084BAAF /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		1843D61E1A32FC470084BAAF /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		1843D6211A32FC470084BAAF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1843D6231A32FC470084BAAF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		1843D6261A32FC470084BAAF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -673,8 +670,6 @@
 			isa = PBXGroup;
 			children = (
 				1843D63C1A32FC780084BAAF /* Classes */,
-				1843D61D1A32FC470084BAAF /* ViewController.h */,
-				1843D61E1A32FC470084BAAF /* ViewController.m */,
 				1843D6231A32FC470084BAAF /* Images.xcassets */,
 				1843D6251A32FC470084BAAF /* LaunchScreen.xib */,
 				1843D6161A32FC470084BAAF /* Supporting Files */,
@@ -1873,7 +1868,6 @@
 				1843D7E51A32FC780084BAAF /* XMPPvCardAvatarModule.m in Sources */,
 				1843D7C31A32FC780084BAAF /* XMPPvCardCoreDataStorage.m in Sources */,
 				1843D7BD1A32FC780084BAAF /* XMPPRoomOccupantMemoryStorageObject.m in Sources */,
-				1843D61F1A32FC470084BAAF /* ViewController.m in Sources */,
 				18840FBB1A36E67700F6C1AB /* WCContactsViewController.m in Sources */,
 				1843D7DC1A32FC780084BAAF /* XMPPCapabilitiesCoreDataStorage.m in Sources */,
 				1843D7C71A32FC780084BAAF /* XMPPvCardTempAdr.m in Sources */,
